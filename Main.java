@@ -1,16 +1,20 @@
 package cookingBook;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
         KsiazkaKucharska ksiazkaKucharska = new KsiazkaKucharska();
+        ksiazkaKucharska.wczytajPrzepisyZPliku("przepisy.txt");
         boolean programDziala = true;
+
         while (programDziala) {
             String[] options = {"Dodaj przepis", "Edytuj przepis", "Usun przepis", "Wyswietl przepis",
-                    "Wyswietl liste przepisow", "Przelicz skladniki", "Wyjscie"};
-            int choice = JOptionPane.showOptionDialog(null, "Wybierz opcje", "Ksiazka kucharska",
+                    "Wyswietl liste przepisow", "Przelicz skladniki", "Wczytaj przepisy", "Zapisz przepisy", "Wyjscie"};
+
+            int choice = JOptionPane.showOptionDialog(null, null, "Ksiazka kucharska",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
             switch (choice) {
                 case 0:
                     ksiazkaKucharska.dodajPrzepis();
@@ -22,7 +26,15 @@ public class Main {
                     ksiazkaKucharska.usunPrzepis();
                     break;
                 case 3:
-                    ksiazkaKucharska.wyswietlPrzepis();
+                    // Wyświetl listę przepisów w JComboBox i pobierz wybrany przepis
+                    String[] przepisyArr = ksiazkaKucharska.getNazwyPrzepisow();
+                    JComboBox<String> przepisyComboBox = new JComboBox<>(przepisyArr);
+                    int showPrzepisResult = JOptionPane.showOptionDialog(null, przepisyComboBox, "Wybierz przepis",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                    if (showPrzepisResult == JOptionPane.OK_OPTION) {
+                        String selectedPrzepis = (String) przepisyComboBox.getSelectedItem();
+                        ksiazkaKucharska.wyswietlPrzepis(selectedPrzepis);
+                    }
                     break;
                 case 4:
                     ksiazkaKucharska.wyswietlListePrzepisow();
@@ -31,6 +43,12 @@ public class Main {
                     ksiazkaKucharska.przeliczSkladniki();
                     break;
                 case 6:
+                    ksiazkaKucharska.wczytajPrzepisyZPliku("przepisy.txt");
+                    break;
+                case 7:
+                    ksiazkaKucharska.zapiszPrzepisyDoPliku("przepisy.txt");
+                    break;
+                case 8:
                     programDziala = false;
                     break;
                 default:
@@ -40,4 +58,3 @@ public class Main {
         }
     }
 }
-

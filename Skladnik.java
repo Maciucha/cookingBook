@@ -1,6 +1,8 @@
 package cookingBook;
 
-public class Skladnik {
+import java.io.Serializable;
+
+public class Skladnik implements Serializable {
     private String nazwa;
     private double ilosc;
     private String jednostkaMiary;

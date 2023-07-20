@@ -2,8 +2,9 @@ package cookingBook;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.io.Serializable;
 
-public class Przepis {
+public class Przepis implements Serializable {
     private String nazwa;
     private ArrayList<Skladnik> skladniki;
     private String sposobWykonania;
