@@ -1,8 +1,7 @@
 package cookingBook;
 
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Przepis implements Serializable {
     private String nazwa;
@@ -39,43 +38,4 @@ public class Przepis implements Serializable {
         this.sposobWykonania = sposobWykonania;
     }
 
-    public void dodajSkladnik(Skladnik skladnik) {
-        skladniki.add(skladnik);
-    }
-
-    public void edytujSkladnik(int indeks, Skladnik skladnik) {
-        skladniki.set(indeks, skladnik);
-    }
-
-    public void usunSkladnik(int indeks) {
-        skladniki.remove(indeks);
-    }
-
-    public void wyswietlPrzepis() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Nazwa przepisu: ").append(nazwa).append("\n");
-        sb.append("Skladniki:\n");
-        for (Skladnik skladnik : skladniki) {
-            sb.append("- ").append(skladnik.getNazwa()).append(": ").append(skladnik.getIlosc()).append(" ")
-                    .append(skladnik.getJednostkaMiary()).append("\n");
-        }
-        sb.append("Sposob wykonania: ").append(sposobWykonania).append("\n");
-        JOptionPane.showMessageDialog(null, sb.toString(), "Przepis", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    public void przeliczSkladniki() {
-        String message = "Podaj nowÄ… iloĹ›Ä‡ skĹ‚adnika:";
-        for (int i = 0; i < skladniki.size(); i++) {
-            Skladnik skladnik = skladniki.get(i);
-            String newAmountStr = JOptionPane.showInputDialog(null, message, "Przeliczanie skĹ‚adnika " + skladnik.getNazwa(),
-                    JOptionPane.PLAIN_MESSAGE);
-            if (newAmountStr != null) {
-                double newAmount = Double.parseDouble(newAmountStr);
-                skladnik.setIlosc(newAmount);
-                skladniki.set(i, skladnik);
-            } else {
-                break;
-            }
-        }
-    }
 }
