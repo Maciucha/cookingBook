@@ -90,10 +90,55 @@ public class Ramka extends JFrame implements ActionListener
             ksiazkaKucharska.dodajPrzepis();
         } else if (klawisz==bEdytujPrzepis)
         {
-
+            {
+                String[] przepisyArr = ksiazkaKucharska.getNazwyPrzepisow();
+                JComboBox<String> przepisyComboBox = new JComboBox<>(przepisyArr);
+                int showPrzepisResult = JOptionPane.showOptionDialog(null, przepisyComboBox, "Wybierz przepis",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                if (showPrzepisResult == JOptionPane.OK_OPTION) {
+                    String selectedPrzepis = (String) przepisyComboBox.getSelectedItem();
+                    ksiazkaKucharska.edytujPrzepis(selectedPrzepis);
+                }
+            }
         } else if (klawisz==bWyjscie)
         {
             dispose();
+        } else if (klawisz==bUsunPrzepis)
+        {
+            {
+                String[] przepisyArr = ksiazkaKucharska.getNazwyPrzepisow();
+                JComboBox<String> przepisyComboBox = new JComboBox<>(przepisyArr);
+                int showPrzepisResult = JOptionPane.showOptionDialog(null, przepisyComboBox, "Wybierz przepis",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                if (showPrzepisResult == JOptionPane.OK_OPTION) {
+                    String selectedPrzepis = (String) przepisyComboBox.getSelectedItem();
+                    ksiazkaKucharska.usunPrzepis(selectedPrzepis);
+                }
+            }
+        } else if (klawisz==bWyswietlPrzepis)
+        {
+            {
+                String[] przepisyArr = ksiazkaKucharska.getNazwyPrzepisow();
+                JComboBox<String> przepisyComboBox = new JComboBox<>(przepisyArr);
+                int showPrzepisResult = JOptionPane.showOptionDialog(null, przepisyComboBox, "Wybierz przepis",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                if (showPrzepisResult == JOptionPane.OK_OPTION) {
+                    String selectedPrzepis = (String) przepisyComboBox.getSelectedItem();
+                    ksiazkaKucharska.wyswietlPrzepis(selectedPrzepis);
+                }
+            }
+        } else if (klawisz==bWyswietlListePrzepisow)
+        {
+            ksiazkaKucharska.wyswietlListePrzepisow();
+        } else if (klawisz==bWczytajPrzepisy)
+        {
+            ksiazkaKucharska.wczytajPrzepisyZPliku("przepisy.txt");
+        } else if (klawisz==bZapiszPrzepisy)
+        {
+            ksiazkaKucharska.zapiszPrzepisyDoPliku("przepisy.txt");
+        } else if (klawisz==bPrzeliczSkladniki)
+        {
+            ksiazkaKucharska.przeliczSkladniki();
         }
     }
 }
