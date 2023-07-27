@@ -1,8 +1,10 @@
 package cookingBook;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class Main extends JFrame implements ActionListener
 {
@@ -15,15 +17,19 @@ public class Main extends JFrame implements ActionListener
     JButton bPrzeliczSkladniki;
     JButton bWczytajPrzepisy;
     JButton bZapiszPrzepisy;
+    JButton bEksportujListeZakupow;
     JButton bWyjscie;
     public Main()
     {
+        ksiazkaKucharska.wczytajPrzepisyZPliku("przepisy.txt");
+
         setSize(600,200);
         setTitle("Książka Kucharska");
         setLayout(null);
 
         bDodajPrzepis = new JButton("Dodaj Przepis");
         bDodajPrzepis.setBounds(10,20,180,20);
+        bDodajPrzepis.setForeground(Color.gray);
         add(bDodajPrzepis);
         bDodajPrzepis.addActionListener(this);
 
@@ -35,11 +41,13 @@ public class Main extends JFrame implements ActionListener
 
         bUsunPrzepis = new JButton("Usuń Przepis");
         bUsunPrzepis.setBounds(390,20,180,20);
+        bUsunPrzepis.setForeground(Color.red);
         add(bUsunPrzepis);
         bUsunPrzepis.addActionListener(this);
 
         bWyswietlPrzepis = new JButton("Wyswietl Przepis");
         bWyswietlPrzepis.setBounds(10,50,180,20);
+        bWyswietlPrzepis.setForeground(Color.gray);
         add(bWyswietlPrzepis);
         bWyswietlPrzepis.addActionListener(this);
 
@@ -50,11 +58,13 @@ public class Main extends JFrame implements ActionListener
 
         bPrzeliczSkladniki = new JButton("Przelicz Składniki");
         bPrzeliczSkladniki.setBounds(10,110,180,20);
+        bPrzeliczSkladniki.setForeground(Color.gray);
         add(bPrzeliczSkladniki);
         bPrzeliczSkladniki.addActionListener(this);
 
         bWczytajPrzepisy = new JButton("Wczytaj Przepisy");
         bWczytajPrzepisy.setBounds(10,80,180,20);
+        bWczytajPrzepisy.setForeground(Color.gray);
         add(bWczytajPrzepisy);
         bWczytajPrzepisy.addActionListener(this);
 
@@ -63,8 +73,14 @@ public class Main extends JFrame implements ActionListener
         add(bZapiszPrzepisy);
         bZapiszPrzepisy.addActionListener(this);
 
+        bEksportujListeZakupow = new JButton("Zapisz listę zakupów");
+        bEksportujListeZakupow.setBounds(200,110,180,20);
+        add(bEksportujListeZakupow);
+        bEksportujListeZakupow.addActionListener(this);
+
         bWyjscie = new JButton("Spadam stąd..");
         bWyjscie.setBounds(390,110,180,20);
+        bWyjscie.setForeground(Color.red);
         add(bWyjscie);
         bWyjscie.addActionListener(this);
 
@@ -85,7 +101,6 @@ public class Main extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        ksiazkaKucharska.wczytajPrzepisyZPliku("przepisy.txt");
         Object klawisz = e.getSource();
         if (klawisz==bDodajPrzepis)
         {
@@ -141,6 +156,10 @@ public class Main extends JFrame implements ActionListener
         } else if (klawisz==bPrzeliczSkladniki)
         {
             ksiazkaKucharska.przeliczSkladniki();
+        } else if (klawisz==bEksportujListeZakupow)
+        {
+            String nazwaPliku = "Lista zakupow.txt";
+            ksiazkaKucharska.eksportujListeZakupow(nazwaPliku);
         }
     }
 }

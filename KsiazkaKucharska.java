@@ -136,6 +136,7 @@ public class KsiazkaKucharska implements Serializable {
             JOptionPane.showMessageDialog(null, "Nie znaleziono przepisu o podanej nazwie.");
         }
     }
+
     public void zapiszPrzepisyDoPliku(String nazwaPliku) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nazwaPliku))) {
             oos.writeObject(przepisy);
@@ -145,6 +146,23 @@ public class KsiazkaKucharska implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public void eksportujListeZakupow(String nazwaPliku) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nazwaPliku))) {
+            for (Przepis przepis : przepisy) {
+                for (Skladnik skladnik : przepis.getSkladniki()) {
+                    String line = String.format("%s - %.2f %s", skladnik.getNazwa(), skladnik.getIlosc(), skladnik.getJednostkaMiary());
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+            System.out.println("Lista zakupów została zapisana do pliku: " + nazwaPliku);
+        } catch (IOException e) {
+            System.err.println("Błąd podczas zapisu listy zakupów do pliku.");
+            e.printStackTrace();
+        }
+    }
+
 
     public void wczytajPrzepisyZPliku(String nazwaPliku) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nazwaPliku))) {
