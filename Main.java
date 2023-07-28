@@ -150,7 +150,7 @@ public class Main extends JFrame implements ActionListener
             ksiazkaKucharska.wyswietlListePrzepisow();
         } else if (klawisz==bWczytajPrzepisy)
         {
-            Frame wczytaj = new Frame ("Okno macierzyste");
+            Frame wczytaj = new Frame ("Wczytaj przepisy");
             wczytaj.setBounds(20,20,1,1);
             wczytaj.setVisible(true);
 
@@ -169,7 +169,7 @@ public class Main extends JFrame implements ActionListener
         } else if (klawisz==bEksportujListeZakupow)
         {
             Frame zapis = new Frame ("Gdzie zapisać listę?");
-            zapis.setBounds(20,20,200,150);
+            zapis.setBounds(20,20,1,1);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             zapis.setVisible(true);
             FileDialog fd =new FileDialog(zapis,"Zapisz",FileDialog.SAVE);
