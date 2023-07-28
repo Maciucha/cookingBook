@@ -94,7 +94,22 @@ public class KsiazkaKucharska implements Serializable {
     }
 
     public void usunPrzepis(String nazwaPrzepisu) {
-        nazwaPrzepisu = JOptionPane.showInputDialog("Podaj nazwe przepisu, który chcesz usunąć:");
+        boolean przepisZnaleziony = false;
+        for (Przepis value : przepisy) {
+            if (value.getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
+                for (int i = 0; i < przepisy.size(); i++) {
+                    if (przepisy.get(i).getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
+                        przepisy.remove(i);
+                        JOptionPane.showMessageDialog(null, "Przepis usunięty.");
+                        przepisZnaleziony = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!przepisZnaleziony) {
+            JOptionPane.showMessageDialog(null, "Nie znaleziono przepisu o podanej nazwie.");
+        /*nazwaPrzepisu = JOptionPane.showInputDialog("Podaj nazwe przepisu, który chcesz usunąć:");
         boolean przepisZnaleziony = false;
         for (int i = 0; i < przepisy.size(); i++) {
             if (przepisy.get(i).getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
@@ -105,7 +120,7 @@ public class KsiazkaKucharska implements Serializable {
             }
         }
         if (!przepisZnaleziony) {
-            JOptionPane.showMessageDialog(null, "Nie znaleziono przepisu o podanej nazwie.");
+            JOptionPane.showMessageDialog(null, "Nie znaleziono przepisu o podanej nazwie.");*/
         }
     }
 
