@@ -158,8 +158,8 @@ public class Main extends JFrame implements ActionListener
             fd.setVisible(true);
             String plik=fd.getDirectory() + fd.getFile();
 
-
             ksiazkaKucharska.wczytajPrzepisyZPliku(plik);
+            wczytaj.setVisible(false);
         } else if (klawisz==bZapiszPrzepisy)
         {
             ksiazkaKucharska.zapiszPrzepisyDoPliku("przepisy.txt");
@@ -175,9 +175,9 @@ public class Main extends JFrame implements ActionListener
             FileDialog fd =new FileDialog(zapis,"Zapisz",FileDialog.SAVE);
             fd.setVisible(true);
             String plik=fd.getFile();
-
             String nazwaPliku = plik + ".txt";
             ksiazkaKucharska.eksportujListeZakupow(nazwaPliku);
+            zapis.setVisible(false);
         }
     }
 }
