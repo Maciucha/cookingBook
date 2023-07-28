@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.FileDialog;
 
 
 public class Main extends JFrame implements ActionListener
@@ -149,7 +150,16 @@ public class Main extends JFrame implements ActionListener
             ksiazkaKucharska.wyswietlListePrzepisow();
         } else if (klawisz==bWczytajPrzepisy)
         {
-            ksiazkaKucharska.wczytajPrzepisyZPliku("przepisy.txt");
+            Frame wczytaj = new Frame ("Okno macierzyste");
+            wczytaj.setBounds(20,20,1,1);
+            wczytaj.setVisible(true);
+
+            FileDialog fd =new FileDialog(wczytaj,"Wczytaj",FileDialog.LOAD);
+            fd.setVisible(true);
+            String plik=fd.getDirectory() + fd.getFile();
+
+
+            ksiazkaKucharska.wczytajPrzepisyZPliku(plik);
         } else if (klawisz==bZapiszPrzepisy)
         {
             ksiazkaKucharska.zapiszPrzepisyDoPliku("przepisy.txt");
@@ -158,7 +168,15 @@ public class Main extends JFrame implements ActionListener
             ksiazkaKucharska.przeliczSkladniki();
         } else if (klawisz==bEksportujListeZakupow)
         {
-            String nazwaPliku = "Lista zakupow.txt";
+            Frame zapis = new Frame ("Gdzie zapisać listę?");
+            zapis.setBounds(20,20,200,150);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            zapis.setVisible(true);
+            FileDialog fd =new FileDialog(zapis,"Zapisz",FileDialog.SAVE);
+            fd.setVisible(true);
+            String plik=fd.getFile();
+
+            String nazwaPliku = plik + ".txt";
             ksiazkaKucharska.eksportujListeZakupow(nazwaPliku);
         }
     }
