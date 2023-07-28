@@ -78,12 +78,20 @@ public class KsiazkaKucharska implements Serializable {
     }
 
     public void edytujPrzepis(String nazwaPrzepisu) {
-        nazwaPrzepisu = JOptionPane.showInputDialog("Podaj nazwe przepisu, który chcesz edytować:");
         boolean przepisZnaleziony = false;
         for (Przepis przepis : przepisy) {
             if (przepis.getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
-                // Similar logic as in the dodajPrzepis() method to edit the recipe
-                // ...
+                    ArrayList<Skladnik> skladniki = new ArrayList<>();
+                    String nazwaSkladnika;
+                    boolean wprowadzanieSkladnikow = true;
+                    while (wprowadzanieSkladnikow) {
+                        nazwaSkladnika = JOptionPane.showInputDialog("Podaj nazwe skladnika:");
+                        String iloscSkladnikaString = JOptionPane.showInputDialog("Podaj ilosc skladnika:");
+                        wprowadzanieSkladnikow = isWprowadzanieSkladnikow(skladniki, nazwaSkladnika, wprowadzanieSkladnikow, iloscSkladnikaString);
+                    }
+                    String sposobWykonania = JOptionPane.showInputDialog("Podaj sposob wykonania przepisu:");
+                    przepisy.add(new Przepis(nazwaPrzepisu, skladniki, sposobWykonania));
+                    JOptionPane.showMessageDialog(null, "Przepis dodany do ksiazki kucharskiej.");
                 przepisZnaleziony = true;
                 break;
             }
@@ -109,18 +117,6 @@ public class KsiazkaKucharska implements Serializable {
         }
         if (!przepisZnaleziony) {
             JOptionPane.showMessageDialog(null, "Nie znaleziono przepisu o podanej nazwie.");
-        /*nazwaPrzepisu = JOptionPane.showInputDialog("Podaj nazwe przepisu, który chcesz usunąć:");
-        boolean przepisZnaleziony = false;
-        for (int i = 0; i < przepisy.size(); i++) {
-            if (przepisy.get(i).getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
-                przepisy.remove(i);
-                JOptionPane.showMessageDialog(null, "Przepis usunięty.");
-                przepisZnaleziony = true;
-                break;
-            }
-        }
-        if (!przepisZnaleziony) {
-            JOptionPane.showMessageDialog(null, "Nie znaleziono przepisu o podanej nazwie.");*/
         }
     }
 
