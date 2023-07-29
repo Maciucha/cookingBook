@@ -17,6 +17,14 @@ public class KsiazkaKucharska implements Serializable {
 
     public void dodajPrzepis() {
         String nazwaPrzepisu = JOptionPane.showInputDialog("Podaj nazwe przepisu:");
+
+        boolean przepisIstnieje = przepisy.stream()
+                .anyMatch(przepis -> przepis.getNazwa().equalsIgnoreCase(nazwaPrzepisu));
+        if (przepisIstnieje) {
+            JOptionPane.showMessageDialog(null, "Przepis o podanej nazwie już istnieje.");
+            return;
+        }
+
         ArrayList<Skladnik> skladniki = new ArrayList<>();
         String nazwaSkladnika;
         boolean wprowadzanieSkladnikow = true;
@@ -90,6 +98,7 @@ public class KsiazkaKucharska implements Serializable {
                         wprowadzanieSkladnikow = isWprowadzanieSkladnikow(skladniki, nazwaSkladnika, wprowadzanieSkladnikow, iloscSkladnikaString);
                     }
                     String sposobWykonania = JOptionPane.showInputDialog("Podaj sposob wykonania przepisu:");
+                    przepisy.remove(przepis);
                     przepisy.add(new Przepis(nazwaPrzepisu, skladniki, sposobWykonania));
                     JOptionPane.showMessageDialog(null, "Przepis dodany do ksiazki kucharskiej.");
                 przepisZnaleziony = true;
