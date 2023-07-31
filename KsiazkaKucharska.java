@@ -129,27 +129,32 @@ public class KsiazkaKucharska implements Serializable {
         }
     }
 
-    public void przeliczSkladniki() {
-        String nazwaPrzepisu = JOptionPane.showInputDialog("Podaj nazwe przepisu, dla którego chcesz przeliczyć składniki:");
+    public void przeliczSkladniki(String nazwaPrzepisu) {
+        //String nazwaPrzepisu = JOptionPane.showInputDialog("Podaj nazwe przepisu, dla którego chcesz przeliczyć składniki:");
         boolean przepisZnaleziony = false;
-        for (int i = 0; i < przepisy.size(); i++) {
-            if (przepisy.get(i).getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
-                ArrayList<Skladnik> skladniki = przepisy.get(i).getSkladniki();
-                String iloscPorcjiString = JOptionPane.showInputDialog("Podaj ilość porcji, dla której chcesz przeliczyć składniki:");
-                try {
-                    double iloscPorcji = Double.parseDouble(iloscPorcjiString);
-                    for (int j = 0; j < skladniki.size(); j++) {
-                        Skladnik skladnik = skladniki.get(j);
-                        double ilosc = skladnik.getIlosc() * iloscPorcji;
-                        skladnik.setIlosc(ilosc);
+        for (Przepis value : przepisy) {
+            if (value.getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
+                for (int i = 0; i < przepisy.size(); i++) {
+                    if (przepisy.get(i).getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
+                        ArrayList<Skladnik> skladniki = przepisy.get(i).getSkladniki();
+                        String iloscPorcjiString = JOptionPane.showInputDialog("Podaj ilość porcji, dla której chcesz przeliczyć składniki:");
+                        try {
+                            double iloscPorcji = Double.parseDouble(iloscPorcjiString);
+                            for (int j = 0; j < skladniki.size(); j++) {
+                                Skladnik skladnik = skladniki.get(j);
+                                double ilosc = skladnik.getIlosc() * iloscPorcji;
+                                skladnik.setIlosc(ilosc);
+
+                            }
+                            przepisy.get(i).setSkladniki(skladniki);
+                            JOptionPane.showMessageDialog(null, "Przeliczono składniki dla przepisu: " + nazwaPrzepisu);
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(null, "Nieprawidłowy format ilości porcji");
+                        }
+                        przepisZnaleziony = true;
+                        break;
                     }
-                    przepisy.get(i).setSkladniki(skladniki);
-                    JOptionPane.showMessageDialog(null, "Przeliczono składniki dla przepisu: " + nazwaPrzepisu);
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Nieprawidłowy format ilości porcji");
                 }
-                przepisZnaleziony = true;
-                break;
             }
         }
         if (!przepisZnaleziony) {
