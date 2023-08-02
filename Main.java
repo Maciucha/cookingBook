@@ -102,15 +102,13 @@ public class Main extends JFrame implements ActionListener {
         if (klawisz == bDodajPrzepis) {
             ksiazkaKucharska.dodajPrzepis();
         } else if (klawisz == bEdytujPrzepis) {
-            {
-                String[] przepisyArr = ksiazkaKucharska.getNazwyPrzepisow();
-                JComboBox<String> przepisyComboBox = new JComboBox<>(przepisyArr);
-                int showPrzepisResult = JOptionPane.showOptionDialog(null, przepisyComboBox, "Wybierz przepis",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-                if (showPrzepisResult == JOptionPane.OK_OPTION) {
-                    String wybranyPrzepis = (String) przepisyComboBox.getSelectedItem();
-                    ksiazkaKucharska.edytujPrzepis(wybranyPrzepis);
-                }
+            String[] przepisyArr = ksiazkaKucharska.getNazwyPrzepisow();
+            JComboBox<String> przepisyComboBox = new JComboBox<>(przepisyArr);
+            int showPrzepisResult = JOptionPane.showOptionDialog(null, przepisyComboBox, "Wybierz przepis do edycji",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+            if (showPrzepisResult == JOptionPane.OK_OPTION) {
+                String wybranyPrzepis = (String) przepisyComboBox.getSelectedItem();
+                ksiazkaKucharska.edytujPrzepis(wybranyPrzepis);
             }
         } else if (klawisz == bWyjscie) {
             dispose();

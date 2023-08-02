@@ -86,29 +86,80 @@ public class KsiazkaKucharska implements Serializable {
     }
 
     public void edytujPrzepis(String nazwaPrzepisu) {
-        boolean przepisZnaleziony = false;
+        Przepis przepisDoEdycji = null;
         for (Przepis przepis : przepisy) {
             if (przepis.getNazwa().equalsIgnoreCase(nazwaPrzepisu)) {
-                    ArrayList<Skladnik> skladniki = new ArrayList<>();
-                    String nazwaSkladnika;
-                    boolean wprowadzanieSkladnikow = true;
-                    while (wprowadzanieSkladnikow) {
-                        nazwaSkladnika = JOptionPane.showInputDialog("Podaj nazwe skladnika:");
-                        String iloscSkladnikaString = JOptionPane.showInputDialog("Podaj ilosc skladnika:");
-                        wprowadzanieSkladnikow = isWprowadzanieSkladnikow(skladniki, nazwaSkladnika, wprowadzanieSkladnikow, iloscSkladnikaString);
-                    }
-                    String sposobWykonania = JOptionPane.showInputDialog("Podaj sposob wykonania przepisu:");
-                    przepisy.remove(przepis);
-                    przepisy.add(new Przepis(nazwaPrzepisu, skladniki, sposobWykonania));
-                    JOptionPane.showMessageDialog(null, "Przepis dodany do ksiazki kucharskiej.");
-                przepisZnaleziony = true;
+                przepisDoEdycji = przepis;
                 break;
             }
         }
-        if (!przepisZnaleziony) {
+
+        if (przepisDoEdycji == null) {
             JOptionPane.showMessageDialog(null, "Nie znaleziono przepisu o podanej nazwie.");
+            return;
         }
+
+        String[] options = {"Edytuj składniki", "Dodaj składnik", "Edytuj opis wykonania"};
+        int choice = JOptionPane.showOptionDialog(null, "Wybierz, co chcesz edytować:", "Edycja przepisu",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        switch (choice) {
+            case 0:
+                ArrayList<Skladnik> skladniki = przepisDoEdycji.getSkladniki();
+                for (int i = 0; i < skladniki.size(); i++) {
+                    Skladnik skladnik = skladniki.get(i);
+                    String nazwaSkladnika = JOptionPane.showInputDialog("Podaj nazwę składnika:", skladnik.getNazwa());
+                    String iloscSkladnikaString = JOptionPane.showInputDialog("Podaj ilość składnika:", skladnik.getIlosc());
+                    iloscSkladnikaString = iloscSkladnikaString.replace(",", ".");
+                    double iloscSkladnika;
+                    try {
+                        iloscSkladnika = Double.parseDouble(iloscSkladnikaString);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Nieprawidłowy format ilości składnika");
+                        continue;
+                    }
+                    String jednostkaMiarySkladnika = JOptionPane.showInputDialog("Podaj jednostkę miary składnika:",
+                            skladnik.getJednostkaMiary());
+                    skladnik.setNazwa(nazwaSkladnika);
+                    skladnik.setIlosc(iloscSkladnika);
+                    skladnik.setJednostkaMiary(jednostkaMiarySkladnika);
+                }
+                break;
+
+            case 1:
+                ArrayList<Skladnik> noweSkladniki = new ArrayList<>();
+                boolean wprowadzanieSkladnikow = true;
+                while (wprowadzanieSkladnikow) {
+                    String nazwaSkladnika = JOptionPane.showInputDialog("Podaj nazwę nowego składnika:");
+                    String iloscSkladnikaString = JOptionPane.showInputDialog("Podaj ilość nowego składnika:");
+                    iloscSkladnikaString = iloscSkladnikaString.replace(",", ".");
+                    double iloscSkladnika;
+                    try {
+                        iloscSkladnika = Double.parseDouble(iloscSkladnikaString);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Nieprawidłowy format ilości składnika");
+                        continue;
+                    }
+                    String jednostkaMiarySkladnika = JOptionPane.showInputDialog("Podaj jednostkę miary nowego składnika:");
+                    noweSkladniki.add(new Skladnik(nazwaSkladnika, iloscSkladnika, jednostkaMiarySkladnika));
+                    int choice2 = JOptionPane.showConfirmDialog(null, "Czy chcesz dodać kolejny składnik?",
+                            "Dodawanie składników", JOptionPane.YES_NO_OPTION);
+                    if (choice2 == JOptionPane.NO_OPTION) {
+                        wprowadzanieSkladnikow = false;
+                    }
+                }
+                przepisDoEdycji.getSkladniki().addAll(noweSkladniki);
+                break;
+
+            case 2:
+                String nowyOpisWykonania = JOptionPane.showInputDialog("Podaj nowy opis wykonania:", przepisDoEdycji.getSposobWykonania());
+                przepisDoEdycji.setSposobWykonania(nowyOpisWykonania);
+                break;
+        }
+
+        JOptionPane.showMessageDialog(null, "Przepis został zaktualizowany.");
     }
+
 
     public void usunPrzepis(String nazwaPrzepisu) {
         boolean przepisZnaleziony = false;
