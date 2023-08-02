@@ -141,12 +141,21 @@ public class Main extends JFrame implements ActionListener {
 
             FileDialog fd = new FileDialog(wczytaj, "Wczytaj", FileDialog.LOAD);
             fd.setVisible(true);
-            String plik = fd.getDirectory() + fd.getFile();
+            String plikwczytaj = fd.getDirectory() + fd.getFile();
 
-            ksiazkaKucharska.wczytajPrzepisyZPliku(plik);
+            ksiazkaKucharska.wczytajPrzepisyZPliku(plikwczytaj);
             wczytaj.setVisible(false);
         } else if (klawisz == bZapiszPrzepisy) {
-            ksiazkaKucharska.zapiszPrzepisyDoPliku("przepisy.txt");
+            Frame zapisz = new Frame("Zapisz przepisy");
+            zapisz.setBounds(20, 20, 1, 1);
+            zapisz.setVisible(true);
+
+            FileDialog fd = new FileDialog(zapisz, "Zapisz", FileDialog.SAVE);
+            fd.setVisible(true);
+            String plikzapisz = fd.getDirectory() + fd.getFile();
+
+            ksiazkaKucharska.zapiszPrzepisyDoPliku(plikzapisz);
+            zapisz.setVisible(false);
         } else if (klawisz == bPrzeliczSkladniki) {
             String[] przepisyArr = ksiazkaKucharska.getNazwyPrzepisow();
             JComboBox<String> przepisyComboBox = new JComboBox<>(przepisyArr);
